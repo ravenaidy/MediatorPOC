@@ -20,7 +20,7 @@ namespace Mediator.Api.Validations.Account
                 .NotEmpty()
                 .Must((m, cancellation) =>
                 {
-                    return _accountRepository.UserNameExists(m.UserName).Result;
+                    return _accountRepository.UserNameExists(m.UserName).Result == false;
                 });
         }
     }
