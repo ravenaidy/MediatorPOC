@@ -1,16 +1,14 @@
+using FluentValidation;
+using Mediator.Api;
+using Mediator.Api.PipeLineBehaviors;
+using Mediator.Shared.AutoMapperExtentions;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MediatorApi
 {
@@ -25,9 +23,21 @@ namespace MediatorApi
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-
+        {            
             services.AddControllers();
+            services.AddMediatorServices(Configuration);
+            
+            // Add mappings
+            var startupAssembly = typeof(Startup).Assembly;
+            services.AddObjectMapping(
+                startupAssembly,
+                typeof(Mediator.Core.Models.Account).Assembly);
+            
+            // Add MediatR and Pipelines
+            services.AddMediatR(typeof(Mediator.Core.Account.Commands.CreateAccountCommand));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            services.AddValidatorsFromAssembly(startupAssembly);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MediatorApi", Version = "v1" });
