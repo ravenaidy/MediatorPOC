@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace Mediator.Api.PipeLineBehaviors
 {
-    public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse> where TResponse : ApiResponse, new()
+    public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> 
+        where TRequest : IRequest<TResponse> where TResponse : ApiResponse, new()
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 

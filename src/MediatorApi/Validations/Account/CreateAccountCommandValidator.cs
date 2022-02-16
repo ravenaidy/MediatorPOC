@@ -16,8 +16,10 @@ namespace Mediator.Api.Validations.Account
                 .NotEmpty()
                 .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$");
 
-            RuleFor(m => m.UserName)
+            RuleFor(m => m.UserName).Cascade(CascadeMode.Stop)
                 .NotEmpty()
+                .MinimumLength(2)
+                .MaximumLength(50)
                 .Must((m, cancellation) =>
                 {
                     return _accountRepository.UserNameExists(m.UserName).Result == false;

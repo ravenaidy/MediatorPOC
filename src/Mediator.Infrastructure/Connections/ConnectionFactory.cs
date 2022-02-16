@@ -22,8 +22,9 @@ namespace Mediator.Infrastructure.Connections
                 if (connection.State != ConnectionState.Open)
                     connection.Open();
             }
-            catch
+            catch (Exception ex)
             {
+                string message = ex.Message;
                 throw new Exception("Error when opening connection to Database");
             }
             return connection;
