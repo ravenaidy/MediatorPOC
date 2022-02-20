@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  mediator.api:
+    image: ${DOCKER_REGISTRY-}mediatorapi
+    ports:
+      - 8080:80
+    build:
+      context: .
+      dockerfile: Dockerfile-api
+    depends_on:
+      - mediatordb
+  mediatordb: 
+    image: ${DOCKER_REGISTRY-}mediatordb
+    ports:  
+      - 1433:1433
+    build:
+      context: ./src/Mediator.Api.SQL
+      dockerfile: DockerFile-sql

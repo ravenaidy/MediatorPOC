@@ -1,5 +1,6 @@
 using FluentValidation;
 using Mediator.Api;
+using Mediator.Api.ExceptionHandling;
 using Mediator.Api.PipeLineBehaviors;
 using Mediator.Shared.AutoMapperExtentions;
 using MediatR;
@@ -32,6 +33,9 @@ namespace MediatorApi
             services.AddObjectMapping(
                 startupAssembly,
                 typeof(Mediator.Core.Models.Account).Assembly);
+
+            // Middleware
+            services.AddTransient<ExceptionHandlingMiddleware>();
             
             // Add MediatR and Pipelines
             services.AddMediatR(typeof(Mediator.Core.Account.Commands.CreateAccountCommand));
@@ -59,6 +63,8 @@ namespace MediatorApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

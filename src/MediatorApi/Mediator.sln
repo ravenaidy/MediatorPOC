@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mediator.Core", "..\Mediato
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mediator.Core.Test", "..\Mediator.Core.Test\Mediator.Core.Test.csproj", "{E08BBBFD-068A-4B83-992B-AA85972A3C51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mediator.Infrastructure", "..\Mediator.Infrastructure\Mediator.Infrastructure.csproj", "{58CAE1E4-CFB6-4953-BAB4-355008C3441C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mediator.Infrastructure", "..\Mediator.Infrastructure\Mediator.Infrastructure.csproj", "{58CAE1E4-CFB6-4953-BAB4-355008C3441C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mediator.Shared", "..\Mediator.Shared\Mediator.Shared.csproj", "{10199B4E-DC59-45CA-A5EA-C435E98FA6B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mediator.Shared", "..\Mediator.Shared\Mediator.Shared.csproj", "{10199B4E-DC59-45CA-A5EA-C435E98FA6B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -27,7 +27,7 @@ namespace Mediator.Infrastructure.Repositories.Account
         {
             var parameters = new { UserName = userName};
             var spName = "pr_AccountExists";
-            return await QueryFirstOrDefaultAsync<Core.Models.Account>(spName, parameters) != null;
+            return await QueryFirstOrDefaultAsync<int>(spName, parameters) > 0;
         }
     }
 }
