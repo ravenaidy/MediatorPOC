@@ -3,9 +3,9 @@ using MediatR;
 
 namespace Mediator.Core.Account.Commands
 {
-    public record CreateAccountCommand : IRequest<Models.Account>, IMapTo<Models.Account>
+    public record CreateAccountCommand : IRequest, IMapTo<Models.Account>
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
+        public string UserName { get; init; }
+        public string Password { get; init; }
     }
 }

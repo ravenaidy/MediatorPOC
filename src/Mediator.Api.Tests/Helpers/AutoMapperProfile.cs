@@ -12,7 +12,7 @@ namespace Mediator.Api.Tests.Helpers
 
         public AutoMappingProfile()
         {
-            var types = new Assembly[] { Assembly.GetAssembly(typeof(Core.Models.Account)), Assembly.GetAssembly(typeof(MediatorApi.Startup)) }
+            var types = new Assembly[] { Assembly.GetAssembly(typeof(Core.Models.Account)), Assembly.GetAssembly(typeof(Startup)) }
                 .SelectMany(x => x.GetExportedTypes())
                 .Where(x =>
                     x.IsClass &&

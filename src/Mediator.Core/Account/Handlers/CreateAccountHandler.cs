@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Mediator.Core.Account.Handlers
 {
-    public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, Models.Account>
+    public class CreateAccountHandler : IRequestHandler<CreateAccountCommand, Unit>
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IMapper _mapper;
@@ -19,10 +19,11 @@ namespace Mediator.Core.Account.Handlers
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<Models.Account> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
             var account = _mapper.Map<Models.Account>(request);
-            return await _accountRepository.AddAccount(account);
+            await _accountRepository.AddAccount(account);
+            return Unit.Value;
         }
     }
 }

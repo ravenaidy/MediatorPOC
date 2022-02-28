@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ValidationException = Mediator.Api.ExceptionHandling.Exceptions.ValidationException;
 
 namespace Mediator.Api.PipeLineBehaviors
 {
@@ -20,17 +21,24 @@ namespace Mediator.Api.PipeLineBehaviors
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             var context = new ValidationContext<TRequest>(request);
-            var failures = _validators
-                .Select(val => val.Validate(context))
-                .SelectMany(err => err.Errors)
-                .Where(err => err != null)
-                .ToList();
+            var errorsDictionary = _validators
+                .Select(x => x.Validate(context))
+                .SelectMany(x => x.Errors)
+                .Where(x => x != null)
+                .GroupBy(
+                    x => x.PropertyName,
+                    x => x.ErrorMessage,
+                    (propertyName, errorMessages) => new
+                    {
+                        Key = propertyName,
+                        Values = errorMessages.Distinct().ToArray()
+                    })
+                .ToDictionary(x => x.Key, x => x.Values);
 
-            if (failures.Any())
+            if (errorsDictionary.Any())
             {
-                throw new ValidationException(failures);
+                throw new ValidationException(errorsDictionary);
             }
-
             return await next();
         }
     }

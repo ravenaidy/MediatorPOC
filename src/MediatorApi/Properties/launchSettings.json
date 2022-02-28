@@ -34,7 +34,7 @@
       "publishAllPorts": true,
       "useSSL": true,
       "environmentVariables": {
-        "ConnectionStrings:Mediator": "Server=172.17.0.2;Database=Mediator;User Id=sa; Password=luvME2bit$;"
+        "ConnectionStrings:Mediator": "Server=localhost, 1433;Database=Mediator;User Id=sa; Password=P@55w0rd123;"
       }
     }
   }

@@ -12,8 +12,9 @@ namespace Mediator.Api.Validations.Account
         {
             _accountRepository = accountRepository ?? throw new System.ArgumentNullException(nameof(accountRepository));
 
-            RuleFor(m => m.Password).Cascade(CascadeMode.Stop)
+            RuleFor(m => m.Password)
                 .NotEmpty()
+                .MinimumLength(8)
                 .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$");
 
             RuleFor(m => m.UserName).Cascade(CascadeMode.Stop)
@@ -23,7 +24,7 @@ namespace Mediator.Api.Validations.Account
                 .Must((m, cancellation) =>
                 {
                     return _accountRepository.UserNameExists(m.UserName).Result == false;
-                });
+                }).WithMessage("The provided Username has already been taken");
         }
     }
 }

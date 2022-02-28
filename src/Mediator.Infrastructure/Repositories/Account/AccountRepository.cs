@@ -1,6 +1,8 @@
 ﻿using Mediator.Core.Account.Contracts;
 using Mediator.Infrastructure.Connections.Contracts;
 using Mediator.Infrastructure.Repositories.Dapper;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Mediator.Infrastructure.Repositories.Account
@@ -11,22 +13,30 @@ namespace Mediator.Infrastructure.Repositories.Account
         {
         }
 
-        public async Task<Core.Models.Account> AddAccount(Core.Models.Account account)
+        public async Task AddAccount(Core.Models.Account account)
         {
-            var parameters = new { account.UserName, account.Password };
-            var spName = "pr_AddAccount";
-            return await ExecuteScalarAsync<Core.Models.Account>(spName, parameters);
+            var parameters = new {UserName = account.Username, account.Password };
+            const string spName = "pr_CreateAccount";
+            await ExecuteAsync(spName, parameters);
         }
 
-        public Task<Core.Models.Account> GetAccount(string userName, string password)
+        public async Task<Core.Models.Account> GetAccount(Core.Models.Account account)
         {
-            throw new System.NotImplementedException();
+            var parameters = new {UserName = account.Username, account.Password };
+            const string spName = "pr_GetAccount";
+            return await QueryFirstOrDefaultAsync<Core.Models.Account>(spName, parameters);
+        }
+
+        public async Task<List<Core.Models.Account>> GetAllAccount()
+        {
+            const string spName = "pr_GetAllAccounts";
+            return (await QueryAsync<Core.Models.Account>(spName)).ToList();
         }
 
         public async Task<bool> UserNameExists(string userName)
         {
             var parameters = new { UserName = userName};
-            var spName = "pr_AccountExists";
+            const string spName = "pr_AccountExists";
             return await QueryFirstOrDefaultAsync<int>(spName, parameters) > 0;
         }
     }

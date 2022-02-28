@@ -5,15 +5,28 @@ services:
     image: ${DOCKER_REGISTRY-}mediatorapi
     ports:
       - 8080:80
+      - 443:443
     build:
       context: .
       dockerfile: Dockerfile-api
     depends_on:
       - mediatordb
-  mediatordb: 
-    image: ${DOCKER_REGISTRY-}mediatordb
+      - mediator-couchbase
+  mediatordb:
+    image: ${DOCKER_REGISTRY-}mediatordb    
     ports:  
-      - 1433:1433
+      - "1433:1433"      
     build:
       context: ./src/Mediator.Api.SQL
-      dockerfile: DockerFile-sql
+      dockerfile: Dockerfile-sql
+  mediator-couchbase:
+    build:
+      context: ./src/Mediator.Couchbase
+      dockerfile: Dockerfile-couchbase
+    ports:
+      - 8091:8091
+      - 8092:8092 
+      - 8093:8093 
+      - 11210:11210
+
+

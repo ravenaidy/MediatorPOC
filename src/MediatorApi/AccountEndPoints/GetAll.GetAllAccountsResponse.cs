@@ -1,15 +1,13 @@
 ﻿using System;
+using Mediator.Shared.AutoMapperExtentions.Contracts;
 
-namespace Mediator.Core.Models
+namespace Mediator.Api.AccountEndPoints
 {
-    public class Account
+    public record GetAllAccountsResponse : IMapFrom<Core.Models.Account>
     {
         public int AccountId { get; set; }
         public string Username { get; set; }
-        public string Password { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedDate { get; set; }
-        
-        
     }
 }

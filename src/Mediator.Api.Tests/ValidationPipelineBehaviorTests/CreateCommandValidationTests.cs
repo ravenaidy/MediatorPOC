@@ -9,7 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
 using Xunit;
+using ValidationException = Mediator.Api.ExceptionHandling.Exceptions.ValidationException;
 
 namespace Mediator.Api.Tests.ValidationPipelineBehaviorTests
 {
@@ -51,10 +53,10 @@ namespace Mediator.Api.Tests.ValidationPipelineBehaviorTests
             {
                 new CreateAccountCommandValidator(repository.Object),
             };
-            var behavior = new ValidationBehavior<CreateAccountCommand, Core.Models.Account>(validators);
+            var behavior = new ValidationBehavior<CreateAccountCommand, Unit>(validators);
 
-            // Act            
-            Func<Task<Core.Models.Account>> action = async () => await behavior.Handle(createAccountCommand, CancellationToken.None, null);
+            // Act
+            Func<Task<Unit>> action = async () => await behavior.Handle(createAccountCommand, CancellationToken.None, null);
 
             // Assert
             await action.Should().ThrowAsync<ValidationException>();
